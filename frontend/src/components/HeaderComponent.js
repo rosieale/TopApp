@@ -1,6 +1,7 @@
 import {Navbar, Nav, Container, NavDropdown, Badge, Form, DropdownButton, Dropdown, Button, InputGroup} from "react-bootstrap";
 
 import { LinkContainer } from 'react-router-bootstrap'
+import { Link } from 'react-router-dom';
 
 const HeaderComponent = () => {
   return (
@@ -12,37 +13,58 @@ const HeaderComponent = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <InputGroup>
-          <DropdownButton id="dropdown-item-button" title="Dropdown button">
-         <Dropdown.ItemText>Dropdown item text</Dropdown.ItemText>
-          <Dropdown.Item as="button">Action</Dropdown.Item>
-          <Dropdown.Item as="button">Another action</Dropdown.Item>
-             <Dropdown.Item as="button">Something else</Dropdown.Item>
+          <DropdownButton id="dropdown-item-button" title="Todos">
+         <Dropdown.ItemText>Elije una opción
+         </Dropdown.ItemText>
+          <Dropdown.Item>Mascotas</Dropdown.Item>
+          <Dropdown.Item>Recursos</Dropdown.Item>
+          <Dropdown.Item>Historias</Dropdown.Item>
                  </DropdownButton>
-          <Form.Control type="text" placeholder="Normal text" />
-          <Button variant="warning">Warning</Button>
+            <InputGroup>
+ 
+          <Form.Control type="text" placeholder="Busca mascotas..." />
+ 
           </InputGroup>
+
+          <Button variant="warning">
+          <i className="bi bi-search-heart"></i>
+          </Button>
+
           </Nav>
           <Nav>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
-            <Nav.Link href="#pricing">
-                <Badge pill bg="danger">
-                    2
-                    </Badge>
-                    Pod
-                </Nav.Link>
-            <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
+          <LinkContainer to="/admin/adoptions">  
+          <Nav.Link>
+              Admin
+
+            </Nav.Link>
+                </LinkContainer>
+
+            <NavDropdown title="Rosie Ale" id="collapsible-nav-dropdown">
+              <NavDropdown.Item eventKey="/user/UserAdoptionsPage" as={Link} to="/user/UserAdoptionsPage">Mis adopciones
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
+              <NavDropdown.Item eventKey="/user/" as={Link} to="/user/UserProfilePage">Mi Perfil
+              </NavDropdown.Item>
+              <NavDropdown.Item> Cerrar sesión
               </NavDropdown.Item>
             </NavDropdown>
+            <LinkContainer to="/LoginPage">  
+          <Nav.Link>
+              Inicia sesión
+            </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/RegisterPage">  
+          <Nav.Link>
+              Registrate
+            </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/UserPetPodPage">  
+          <Nav.Link>
+          <Badge pill bg="danger">
+                    2
+                    </Badge>
+                    <i className="bi bi-house-heart-fill"></i>
+                    Pod    <span className = "ms-1"></span>         </Nav.Link>
+                </LinkContainer>
           </Nav>
           
         </Navbar.Collapse>

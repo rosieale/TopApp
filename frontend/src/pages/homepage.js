@@ -1,5 +1,8 @@
+import PetCarouselComponent from "../components/user/PetsCarouselComponent";
 const HomePage = () => {
-    return <p>Esta es la home page</p>
+    return (
+        <PetCarouselComponent/>
+    )
 }
 
 export default HomePage;
