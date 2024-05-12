@@ -13,5 +13,4 @@ const FooterCompomnent = () => {
   );
 }
 
-
 export default FooterCompomnent
