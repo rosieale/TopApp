@@ -1,20 +1,23 @@
-// Import express
 const mongoose = require('mongoose');
 const express = require('express');
+require('dotenv').config();
+
 
 // Create an express application
 const app = express();
 
-//Improt Routes
+// Import Routes
 const userRoutes = require('./routes/userRoutes');
 const petRoutes = require('./routes/petRoutes');
+const resourceRoutes = require('./routes/resourceRoutes');
 
-//Middelware
+// Middleware
 app.use(express.json());
 
-//Use Routes
+// Use Routes
 app.use(userRoutes);
 app.use(petRoutes);
+app.use(resourceRoutes);
 
 // Define a port number
 const PORT = 3000;
@@ -29,8 +32,8 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-const dbURI = "mongodb://localhost:27017/PetMatch";
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+const dbURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}/?retryWrites=true&w=majority&appName=Cluster0`;
+
+mongoose.connect(dbURI)
   .then((result) => console.log('Connected to db'))
   .catch((err) => console.log(err));
-
