@@ -32,8 +32,13 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-const dbURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}/?retryWrites=true&w=majority&appName=Cluster0`;
+const dbURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}/?retryWrites=true&w=majority&ssl=true`;
 
-mongoose.connect(dbURI)
+// Debug log the URI (do not use in production)
+console.log(`Connecting to: ${dbURI}`);
+
+mongoose.connect(dbURI, {
+  tlsAllowInvalidCertificates: true // Add this option to bypass SSL certificate validation issues
+})
   .then((result) => console.log('Connected to db'))
   .catch((err) => console.log(err));

@@ -1,49 +1,80 @@
-import React, { useState } from 'react';
-import './LoginPage.css'; 
+import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import Spinner from 'react-bootstrap/Spinner'
+const LoginPage = () => {
+  const [validated, setValidated] = useState(false);
 
-function LoginPage() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
 
-    const handleLogin = async (event) => {
-        event.preventDefault();
-        // Logica de inicio de sesión
-        console.log('Login attempt with:', email, password);
-    };
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
-    return (
-        <div className="login-container">
-            <div className="login-header">
-                <i className="fa fa-paw"></i> {/* Ícono de una pata de mascota */}
-                <h1>PetMatch</h1>
-            </div>
-            <form onSubmit={handleLogin}>
-                <h2>Iniciar Sesión</h2>
-                <div className="input-group">
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="input-group">
-                    <label>Contraseña:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Iniciar Sesión</button>
-                <p>
-                    ¿No tienes cuenta? <a href="/register">Regístrate</a>
-                </p>
-            </form>
-        </div>
-    );
-}
+    setValidated(true);
+  };
+  return (
+    <Container>
+      <Row className="mt-5 justify-content-md-center">
+        <Col md={6}>
+          <h1>Inicia sesión</h1>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            
+            
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Dirección de correo</Form.Label>
+              <Form.Control
+                name="email"
+                required
+                type="email"
+                placeholder="Ingresa el correo"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                name="password"
+                required
+                type="password"
+                placeholder="Contraseña"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Check
+                name="doNotLogout"
+                type="checkbox"
+                label="No cerrar sesión"
+              />
+            </Form.Group>
+
+            <Row className="pb-2">
+              <Col>
+               No tienes una cuenta?
+                <Link to={"/register"}> Registrate </Link>
+              </Col>
+            </Row>
+
+            <Button variant="primary" type="submit">
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+              Inicia sesión
+            </Button>
+            <Alert show={true} variant="danger">
+                Credenciales incorrectas
+            </Alert>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
 export default LoginPage;
+
