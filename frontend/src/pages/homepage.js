@@ -1,7 +1,7 @@
 import PetCarouselComponent from "../components/user/PetsCarouselComponent";
 import CategoryCardComponent from "../components/CategoryCardComponent";
 import { Row, Container } from "react-bootstrap";
-const HomePage = () => {
+const homepage = () => {
     const categories = [
         "Caninos", "Felinos", "Otros animales"
     ];
@@ -20,4 +20,4 @@ const HomePage = () => {
     )
 }
 
-export default HomePage;
+export default homepage;

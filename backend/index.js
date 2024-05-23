@@ -1,12 +1,23 @@
-// Import express
 const mongoose = require('mongoose');
-const User = require('./models/Users');
-const Pet = require('./models/Pet');
 const express = require('express');
+require('dotenv').config();
+
 
 // Create an express application
 const app = express();
+
+// Import Routes
+const userRoutes = require('./routes/userRoutes');
+const petRoutes = require('./routes/petRoutes');
+const resourceRoutes = require('./routes/resourceRoutes');
+
+// Middleware
 app.use(express.json());
+
+// Use Routes
+app.use(userRoutes);
+app.use(petRoutes);
+app.use(resourceRoutes);
 
 // Define a port number
 const PORT = 3000;
@@ -21,61 +32,13 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-const dbURI = "mongodb://localhost:27017/PetMatch";
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+const dbURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}/?retryWrites=true&w=majority&ssl=true`;
+
+// Debug log the URI (do not use in production)
+console.log(`Connecting to: ${dbURI}`);
+
+mongoose.connect(dbURI, {
+  tlsAllowInvalidCertificates: true // Add this option to bypass SSL certificate validation issues
+})
   .then((result) => console.log('Connected to db'))
   .catch((err) => console.log(err));
-
-app.post('/users', async (req, res) => {
-const { username, email, password } = req.body;
-
-  try {
-    const newUser = new User({ username, email, password });
-    await newUser.save();
-    res.status(201).send('User created');
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-// Route to create a new pet
-app.post('/pets', async (req, res) => {
-  const { name, age, type, owner } = req.body;
-  try {
-    const newPet = new Pet({ name, age, type, owner });
-    await newPet.save();
-    res.status(201).send('Pet added');
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-// Route to get all pets
-app.get('/pets', async (req, res) => {
-  try {
-    const pets = await Pet.find().populate('owner');
-    res.status(200).json(pets);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
-
-// Route to update a pet
-app.patch('/pets/:id', async (req, res) => {
-  try {
-    const updatedPet = await Pet.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.status(200).json(updatedPet);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-// Route to delete a pet
-app.delete('/pets/:id', async (req, res) => {
-  try {
-    await Pet.findByIdAndDelete(req.params.id);
-    res.status(204).send('Pet removed');
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});

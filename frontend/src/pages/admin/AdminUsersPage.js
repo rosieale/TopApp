@@ -1,5 +1,5 @@
 const AdminUsersPage = () => {
-    return <p>Este es el Lista de mascotas</p>
+    return <p>Este es admin users page</p>
 }
 
 export default AdminUsersPage;
