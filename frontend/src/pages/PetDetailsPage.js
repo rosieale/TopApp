@@ -63,7 +63,7 @@ const PetDetailsPage = () => {
                   <h1>Fae</h1>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Rating readonly size={20} initialValue={4} /> (1)
+                  <Rating readonly size={20} initialValue={5} /> (1)
                 </ListGroup.Item>
                 <ListGroup.Item>
                   Ubicación: <span className="fw-bold">San Pedro Sula</span>
