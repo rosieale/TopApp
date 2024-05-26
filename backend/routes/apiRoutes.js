@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express()
-const petRoutes = require("./petRoutes")
+const apiRoutes = require("./apiRoutes")
 
-app.use("/pets", petRoutes)
+app.use("/apiRoutes", apiRoutes)
 
 module.exports = app

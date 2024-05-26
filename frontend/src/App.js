@@ -42,7 +42,7 @@ function App() {
           <Routes>
             <Route element={<RoutesWithUserChatComponent />}>
               <Route path="/" element={<HomePage />} />
-              <Route path="/PetListPage" element={<PetListPage />} />
+              <Route path="/pets/:category" element={<PetListPage />} />
               <Route path="/PetDetailsPage" element={<PetDetailsPage />} />
               <Route path="/PetDetailsPage/:id" element={<PetDetailsPage />} />
               <Route path="/UserPetPodPage" element={<PodPage />} />

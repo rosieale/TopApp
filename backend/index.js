@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
+const cors = require('cors');
 require('dotenv').config();
-
 
 // Create an express application
 const app = express();
@@ -12,11 +12,12 @@ const petRoutes = require('./routes/petRoutes');
 const resourceRoutes = require('./routes/resourceRoutes');
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 
 // Use Routes
 app.use(userRoutes);
-app.use(petRoutes);
+app.use('/pets', petRoutes);
 app.use(resourceRoutes);
 
 // Define a port number
@@ -32,7 +33,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-const dbURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}/?retryWrites=true&w=majority&ssl=true`;
+const dbURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}.mongodb.net/pet-match?retryWrites=true&w=majority`;
 
 // Debug log the URI (do not use in production)
 console.log(`Connecting to: ${dbURI}`);
