@@ -7,7 +7,17 @@ const HeaderComponent = () => {
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary header">
       <Container>
         <LinkContainer to="/">
-          <Navbar.Brand href="/">PetMatch</Navbar.Brand>
+          <Navbar.Brand href="/">
+            <img
+              src="/images/logo2.png"
+              width="35"
+              height="35"
+              className="d-inline-block align-top"
+              alt="PetMatch Logo"
+              style={{ marginRight: '10px' }}
+            />
+            PetMatch
+          </Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">

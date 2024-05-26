@@ -27,7 +27,7 @@ import {
         <Row className="justify-content-md-center mt-5">
           <Col md={1}>
             <Link to="/admin/AdminPetsPage" className="btn btn-info my-3">
-              Go Back
+              Ir atrás
             </Link>
           </Col>
           <Col md={6}>
@@ -169,7 +169,7 @@ import {
                 <Form.Control required type="file" multiple />
               </Form.Group>
               <Button variant="primary" type="submit">
-                Create
+                Crear
               </Button>
             </Form>
           </Col>

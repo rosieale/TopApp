@@ -39,7 +39,7 @@ const AdminPetsPage = () => {
                 <td>{item.location}</td>
                 <td>{item.category}</td>
                 <td>
-                  <LinkContainer to="/admin/EditPet">
+                  <LinkContainer to="/admin/AdminEditAdoptionPage">
                     <Button className="btn-sm">
                       <i className="bi bi-pencil-square"></i>
                     </Button>
