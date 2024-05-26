@@ -1,33 +1,51 @@
-import { Row, Col, Container, ListGroup, Button } from "react-bootstrap";
-import PaginationComponent from "../components/PaginationComponent";
-import PetForListComponent from "../components/PetForListComponent";
-import SortOptionsComponent from "../components/SortOptionsComponent";
-import LocationFilterComponent from "../components/filterQueryResultOptions/LocationFilterComponent";
-import RatingFilterComponent from "../components/filterQueryResultOptions/RatingFilterComponent";
-import CategoryFilterComponent from "../components/filterQueryResultOptions/CategoryFilterComponent";
-import AttributeFilterComponent from "../components/filterQueryResultOptions/AttributeFilterComponent";
-
-const pets = [
-  {
-    id: 1,
-    name: 'Luna',
-    description: 'Luna es una gata juguetona de 7 meses. Le gusta jugar, estar acompañada y que la acaricien.',
-    location: 'San Pedro Sula',
-    rating: 5,
-    image: '/images/Kitties1.png'
-  },
-  {
-    id: 2,
-    name: 'Bella',
-    description: 'Bella es una perrita cariñosa de 2 años. Le gusta correr y jugar con otros perros.',
-    location: 'Tegucigalpa',
-    rating: 4,
-    image: '/images/Carousel/Pets2.png'
-  },
-  // ...otros animales
-];
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Row, Col, Container, ListGroup, Button, Alert } from 'react-bootstrap';
+import PaginationComponent from '../components/PaginationComponent';
+import PetForListComponent from '../components/PetForListComponent';
+import SortOptionsComponent from '../components/SortOptionsComponent';
+import LocationFilterComponent from '../components/filterQueryResultOptions/LocationFilterComponent';
+import RatingFilterComponent from '../components/filterQueryResultOptions/RatingFilterComponent';
+import CategoryFilterComponent from '../components/filterQueryResultOptions/CategoryFilterComponent';
+import AttributeFilterComponent from '../components/filterQueryResultOptions/AttributeFilterComponent';
 
 const PetListPage = () => {
+  const { category } = useParams();
+  const [pets, setPets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        const response = await fetch(`/pets?type=${category}`);
+        if (!response.ok) {
+          if (response.status === 404) {
+            setPets([]);
+          } else {
+            throw new Error('Network response was not ok');
+          }
+        } else {
+          const data = await response.json();
+          setPets(data);
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPets();
+  }, [category]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <Container fluid>
       <Row>
@@ -56,16 +74,20 @@ const PetListPage = () => {
           </ListGroup>
         </Col>
         <Col md={9}>
-          {pets.map((pet) => (
-            <PetForListComponent
-              key={pet.id}
-              name={pet.name}
-              description={pet.description}
-              location={pet.location}
-              rating={pet.rating}
-              image={pet.image}
-            />
-          ))}
+          {pets.length === 0 ? (
+            <Alert variant="warning">No Pets Found</Alert>
+          ) : (
+            pets.map((pet) => (
+              <PetForListComponent
+                key={pet.id}
+                name={pet.name}
+                description={pet.description}
+                location={pet.location}
+                rating={pet.rating}
+                image={pet.image}
+              />
+            ))
+          )}
           <PaginationComponent />
         </Col>
       </Row>

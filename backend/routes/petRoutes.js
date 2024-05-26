@@ -14,9 +14,30 @@ router.post('/pets', async (req, res) => {
 });
 
 router.get('/pets', async (req, res) => {
+  const { type } = req.query;
   try {
-    const pets = await Pet.find().populate('owner');
+    let pets;
+    if (type) {
+      pets = await Pet.find({ type }).populate('owner');
+    } else {
+      pets = await Pet.find().populate('owner');
+    }
+    if (pets.length === 0) {
+      return res.status(404).json({ message: 'No pets found' });
+    }
     res.status(200).json(pets);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+router.get('/pets/:id', async (req, res) => {
+  try {
+    const pet = await Pet.findById(req.params.id).populate('owner');
+    if (!pet) {
+      return res.status(404).json({ message: 'Pet not found' });
+    }
+    res.status(200).json(pet);
   } catch (error) {
     res.status(500).send(error.message);
   }
